@@ -52,7 +52,7 @@ int main() {
     for(ll i = 0; i < n; ++i) {
         if(abs(l[i][i]) < eps) {
             cerr << "\nNot solvable using LU Decomposition.\n";
-            return 0;
+            return 1;
         }
     }
 
