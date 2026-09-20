@@ -85,13 +85,40 @@ int main() {
     }
 
     ld d = det(a, n);
+    Matrix inv = adjoint(a, n);
 
     if(abs(d) < eps) {
-        cerr << "\nInverse matrix does not exist. Hence, unsolvable by matrix inversion method.\n";
+        bool isAdjZero = true;
+        for (ll i = 0; i < n; ++i) {
+            for (ll j = 0; j < n; ++j) {
+                if (abs(inv[i][j]) > eps) {
+                    isAdjZero = false;
+                    break;
+                }
+            }
+        }
+
+        // Compute V = adj(A) * B
+        vector<ld> v(n, 0);
+        bool isVZero = true;
+        for (ll i = 0; i < n; ++i) {
+            for (ll j = 0; j < n; ++j) {
+                v[i] += inv[i][j] * b[j];
+            }
+            if (abs(v[i]) > eps) {
+                isVZero = false;
+            }
+        }
+
+        if (!isVZero) {
+            cerr << "\nNo Solution (Inconsistent System)\n";
+        } else if (!isAdjZero) {
+            cerr << "\nInfinite Solutions\n";
+        } else {
+            cerr << "\nInconclusive via Matrix Inversion Method\n";
+        }
         return 1;
     }
-
-    Matrix inv = adjoint(a, n);
 
     for(auto &vec : inv) {
         for(auto &val : vec) {

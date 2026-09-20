@@ -30,6 +30,22 @@ int main() {
     }
 
     for(ll i = 0; i < n; ++i) {
+        ld mx = abs(a[i][i]);
+        ld idx = i;
+        for(ll j = i + 1; j < n; ++j) {
+            if(mx < abs(a[j][i])) {
+                mx = abs(a[j][i]);
+                idx = j;
+            }
+        }
+
+        if(idx != i) {
+            swap(a[i], a[idx]);
+            swap(b[i], b[idx]);
+        }
+    }
+
+    for(ll i = 0; i < n; ++i) {
         u[i][i] = 1;
     }
 
@@ -41,7 +57,12 @@ int main() {
             }
 
             if(j > i) {
-                u[i][j] = (a[i][j] - sum) / l[i][i];
+                if(abs(l[i][i]) < eps) {
+                    u[i][j] = 0;
+                }
+                else {
+                    u[i][j] = (a[i][j] - sum) / l[i][i];
+                }
             }
             else {
                 l[i][j] = a[i][j] - sum;
@@ -49,17 +70,23 @@ int main() {
         }
     }
 
-    for(ll i = 0; i < n; ++i) {
-        if(abs(l[i][i]) < eps) {
-            cerr << "\nNot solvable using LU Decomposition.\n";
-            return 1;
-        }
-    }
+
 
     for(ll i = 0; i < n; ++i) {
         ld sum = 0;
         for(ll j = 0; j < n; ++j) {
             sum += l[i][j] * z[j];
+        }
+
+        if(abs(l[i][i]) < eps) {
+            if(abs(b[i] - sum) < eps) {
+                cerr << "Infinite Solutions\n";
+            }
+            else {
+                cerr << "No Solution\n";
+            }
+
+            return 1;
         }
 
         z[i] = (b[i] - sum) / l[i][i];
@@ -102,5 +129,11 @@ int main() {
 10 -3 -5 -6
 -20 6 10 12    
 12 45 1 -6
+
+3
+0 1 1
+2 3 5
+7 6 -2
+3 4 5
 
 */
