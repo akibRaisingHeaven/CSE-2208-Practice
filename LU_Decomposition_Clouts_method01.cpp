@@ -80,10 +80,10 @@ int main() {
 
         if(abs(l[i][i]) < eps) {
             if(abs(b[i] - sum) < eps) {
-                cerr << "Infinite Solutions\n";
+                cout << "Infinite Solutions\n";
             }
             else {
-                cerr << "No Solution\n";
+                cout << "No Solution\n";
             }
 
             return 1;
@@ -135,5 +135,15 @@ int main() {
 2 3 5
 7 6 -2
 3 4 5
+
+2
+1 1
+2 2
+2 4
+
+2
+1 1
+2 2
+2 5
 
 */
