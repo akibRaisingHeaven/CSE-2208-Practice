@@ -3,6 +3,8 @@
 #define ld long double
 using namespace std;
 
+const ld eps = 1e-12;
+
 int main() {
     ll n;
     cin >> n;
@@ -26,6 +28,46 @@ int main() {
         }
     }
 
+    cout << "\nEquation:\n";
+    
+    bool isFirstTerm = true;
+    if(abs(f[0][0]) >= eps) {
+        cout << f[0][0];
+        isFirstTerm = false;
+    }
+
+    for(ll i = 1; i < n; ++i) {
+        if(abs(f[i][0]) < eps) {
+            continue;
+        }
+
+        if(!isFirstTerm) {
+            if(f[i][0] > 0) {
+                cout << "+";
+            }
+        }
+
+        cout << f[i][0];
+        isFirstTerm = false;
+
+        for(ll j = 0; j < i; ++j) {
+            if(abs(xfx[j].first) < eps) {
+                cout << "x";
+                continue;
+            }
+
+            cout << "(x";
+
+            if(xfx[j].first < 0) {
+                cout << "+";
+            }
+
+            cout << -xfx[j].first << ")";
+        }
+    }
+
+    cout << '\n';
+
     ld ans = f[0][0];
     ld val = 1;
     for(ll i = 1; i < n; ++i) {
@@ -33,7 +75,7 @@ int main() {
         ans += f[i][0] * val;
     }
 
-    cout << "f(x) = " << ans << '\n';
+    cout << "\nf(x) = " << ans << "\n\n";
 
     ld xNew, fxNew;
     cin >> xNew >> fxNew;
@@ -67,7 +109,6 @@ int main() {
 4 1.386294
 6 1.79175
 2
-
 5 1.609438
 
 */

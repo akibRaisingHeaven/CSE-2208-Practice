@@ -43,7 +43,32 @@ int main() {
             ans += deltaY[i][0] * val;
         }
 
-        cout << "f(x) = " << ans << '\n';
+        cout << "\nf(x) = " << ans << "\n\n";
+
+        ld xNew, yNew;
+        cin >> xNew >> yNew;
+
+        xy.push_back({xNew, yNew});
+        ++n;
+
+        sort(xy.begin(), xy.end());
+
+        vector <vector <ld>> deltaYNew(n, vector <ld> (n, 0));
+        for(ll i = 0; i < n; ++i) {
+            deltaYNew[0][i] = xy[i].second;
+        }
+
+        for(ll i = 1; i < n; ++i) {
+            for(ll j = 0; j < n - i; ++j) {
+                deltaYNew[i][j] = deltaYNew[i - 1][j + 1] - deltaYNew[i - 1][j];
+            }
+        }
+
+        val *= (u - n + 2) / (n - 1);
+
+        ld err = val * deltaYNew[n - 1][0];
+
+        cout << "\nError: " << err << '\n';
     }
     else {
         //Backward Interpolation;
@@ -67,7 +92,32 @@ int main() {
             ans += deltaY[i][n - 1] * val;
         }
 
-        cout << "f(x) = " << ans << '\n';
+        cout << "\nf(x) = " << ans << "\n\n";
+
+        ld xNew, yNew;
+        cin >> xNew >> yNew;
+
+        xy.push_back({xNew, yNew});
+        ++n;
+
+        sort(xy.begin(), xy.end());
+
+        vector <vector <ld>> deltaYNew(n, vector <ld> (n, 0));
+        for(ll i = 0; i < n; ++i) {
+            deltaYNew[0][i] = xy[i].second;
+        }
+
+        for(ll i = 1; i < n; ++i) {
+            for(ll j = i; j < n; ++j) {
+                deltaYNew[i][j] = deltaYNew[i - 1][j] - deltaYNew[i - 1][j - 1];
+            }
+        }
+
+        val *= (v + n - 2) / (n - 1);
+
+        ld err = val * deltaYNew[n - 1][n - 1];
+
+        cout << "\nError: " << err << '\n';
     }
 }
 
@@ -78,6 +128,7 @@ int main() {
 7 120
 9 90
 4
+11 60
 
 5
 24 28.06
@@ -86,5 +137,13 @@ int main() {
 36 34.94
 40 40
 33
+20 25.12
+
+3
+1 1
+2 8
+3 27
+2.5
+4 64
 
 */
